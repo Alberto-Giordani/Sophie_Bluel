@@ -1,9 +1,3 @@
-async function fetchWorks() {
-    const responseWorks = await fetch("http://localhost:5678/api/works");
-    const worksApi = await responseWorks.json();
-    addWorks(worksApi);
-}
-
 function addWorks(works) {
     const gallery = document.querySelector('.gallery');
     gallery.innerHTML = "";
@@ -16,36 +10,48 @@ function addWorks(works) {
     }
 }
 
+
+async function fetchWorks() {
+    const responseWorks = await fetch("http://localhost:5678/api/works");
+    const worksApi = await responseWorks.json();
+    addWorks(worksApi);
+}
+
+
 fetchWorks();
 
-async function fetchCategories() {
-    const responseCategories = await fetch("http://localhost:5678/api/categories");
-    const categoriesApi = await responseCategories.json();
-    addFiltres(categoriesApi);
+function updateGalleryDisplay(select) {
+    const figures = document.querySelectorAll('.gallery figure');
+    if (select.size === 0) {
+        // Pas de filtre, on affiche tous les travaux
+        figures.forEach(figure => figure.style.display = "");
+    } else {
+        // On n'affiche que les travaux dont le categoryId est inclus dans le Set
+        figures.forEach(figure => {
+            const figCategoryId = parseInt(figure.getAttribute('data-category-id'));
+            figure.style.display = select.has(figCategoryId) ? "" : "none";
+        });
+    }
 }
 
 function addFiltres(categories) {
     const filtres = document.querySelector('.filtres');
     filtres.innerHTML = "";
 
+    const selectedCategories = new Set();
+
     // Bouton "Tous"
     const filtreTous = document.createElement('button');
-    // De base tous les travaux sont affichés
     filtreTous.classList.add('filtres__btn', 'filtres__btn--select');
-
     filtreTous.innerHTML = `<span>Tous</span>`;
     filtreTous.addEventListener('click', () => {
-        // Quand on le selectionne on enlève la class "select" aux autres boutons
-        document.querySelectorAll('.filtres__btn').forEach(btn => {
-            btn.classList.remove('filtres__btn--select');
-        });
-        // et on l'ajoute au bouton "Tous"
+        // Toute selection est effacée : le Set est vidé et on ajoute la class "select" au bouton Tous
+        selectedCategories.clear();
+        document.querySelectorAll('.filtres__btn').forEach(btn => 
+            btn.classList.remove('filtres__btn--select')
+        );
         filtreTous.classList.add('filtres__btn--select');
-
-        // On affiche tous les travaux
-        document.querySelectorAll('.gallery figure').forEach(figure => {
-            figure.style.display = "";
-        });
+        updateGalleryDisplay(selectedCategories);
     });
     filtres.appendChild(filtreTous);
 
@@ -58,29 +64,31 @@ function addFiltres(categories) {
         filtreCategories.setAttribute('data-category-id', category.id);
 
         filtreCategories.addEventListener('click', () => {
-            // Quand on le selectionne on enlève la class "select" aux autres boutons
-            document.querySelectorAll('.filtres__btn').forEach(btn => {
-                btn.classList.remove('filtres__btn--select');
-            });
-            // Et on l'ajoute au bouton actuel
-            filtreCategories.classList.add('filtres__btn--select');
-
-            // On filtre les travaux avec le categoryId
-            document.querySelectorAll('.gallery figure').forEach(figure => {
-                const figCategoryId = parseInt(figure.getAttribute('data-category-id'));
-                console.log(parseInt(figure.getAttribute('data-category-id')));
-                // Si le categoryId d'une figure correspond à celui du bouton on affiche la figure, 
-                // sinon on l'enlève
-                if (figCategoryId === category.id) {
-                    figure.style.display = "";
-                } else {
-                    figure.style.display = "none";
-                }
-            });
+            // Si le filtre est déjà activé on le désélectionne et on revient sur "Tous"
+            if (selectedCategories.has(category.id)) {
+                selectedCategories.clear();
+                document.querySelectorAll('.filtres__btn').forEach(btn => btn.classList.remove('filtres__btn--select'));
+                filtreTous.classList.add('filtres__btn--select');
+            } else {
+                // Sinon on vide le Set (pour qu'il n'y aie qu'une catégorie à la fois),
+                // on ajoute la catégorie correspondante et la class "select"
+                selectedCategories.clear();
+                selectedCategories.add(category.id);
+                document.querySelectorAll('.filtres__btn').forEach(btn => btn.classList.remove('filtres__btn--select'));
+                filtreCategories.classList.add('filtres__btn--select');
+            }
+            updateGalleryDisplay(selectedCategories);
         });
 
         filtres.appendChild(filtreCategories);
     }
 }
+
+async function fetchCategories() {
+    const responseCategories = await fetch("http://localhost:5678/api/categories");
+    const categoriesApi = await responseCategories.json();
+    addFiltres(categoriesApi);
+}
+
 
 fetchCategories();
