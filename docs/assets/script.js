@@ -57,15 +57,14 @@ function addFiltres(categories) {
 
     // Tous les autres boutons
     for (let i = 0; i < categories.length; i++) {
-        const category = categories[i];
         const filtreCategories = document.createElement('button');
         filtreCategories.classList.add('filtres__btn');
-        filtreCategories.innerHTML = `<span>${category.name}</span>`;
-        filtreCategories.setAttribute('data-category-id', category.id);
+        filtreCategories.innerHTML = `<span>${categories[i].name}</span>`;
+        filtreCategories.setAttribute('data-category-id', categories[i].id);
 
         filtreCategories.addEventListener('click', () => {
             // Si le filtre est déjà activé on le désélectionne et on revient sur "Tous"
-            if (selectedCategories.has(category.id)) {
+            if (selectedCategories.has(categories[i].id)) {
                 selectedCategories.clear();
                 document.querySelectorAll('.filtres__btn').forEach(btn => btn.classList.remove('filtres__btn--select'));
                 filtreTous.classList.add('filtres__btn--select');
@@ -73,7 +72,7 @@ function addFiltres(categories) {
                 // Sinon on vide le Set (pour qu'il n'y aie qu'une catégorie à la fois),
                 // on ajoute la catégorie correspondante et la class "select"
                 selectedCategories.clear();
-                selectedCategories.add(category.id);
+                selectedCategories.add(categories[i].id);
                 document.querySelectorAll('.filtres__btn').forEach(btn => btn.classList.remove('filtres__btn--select'));
                 filtreCategories.classList.add('filtres__btn--select');
             }

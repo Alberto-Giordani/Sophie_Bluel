@@ -144,6 +144,7 @@ li:hover {
 	min-width: 100px;
 	background-color: white;
 	padding: auto clamp(10px, 20px, 29px);
+	cursor: pointer;
 }
 
 .filtres__btn--select {
