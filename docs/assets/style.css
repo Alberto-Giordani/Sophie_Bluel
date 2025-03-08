@@ -111,6 +111,11 @@ nav li a:visited:hover {
 li:hover {
 	color: #B1663C;
 }
+
+.semibold {
+	font-weight: 600;
+}
+
 #introduction {
 	display: flex;
 	align-items: center;
