@@ -20,10 +20,10 @@ async function validerLogin(email, password) {
                 window.location.href = "../index.html";
                 break;
             case 401:
-                throw new Error("Accès non autorisé");
+                throw new Error("Erreur dans le mot de passe");
                 break;
             case 404:
-                throw new Error("Utilisateur inconnu");
+                throw new Error("Erreur dans l'identifiant");
                 break;
             default:
                 throw new Error("Problème d'authentification");

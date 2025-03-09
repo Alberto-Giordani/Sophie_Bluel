@@ -256,8 +256,8 @@ li:hover {
 	font-weight: 700;
 	height: 38px;
 	min-width: 100px;
+	max-width: 198px;
 	background-color: white;
-	padding: auto clamp(10px, 20px, 29px);
 	cursor: pointer;
 }
 
@@ -406,6 +406,10 @@ input[type="submit"] {
 	width: 180px;
 	text-align: center;
 	border-radius: 60px;
+}
+
+input[type="submit"]:hover {
+	background-color: #0E2F28;
 }
 
 footer nav ul {
