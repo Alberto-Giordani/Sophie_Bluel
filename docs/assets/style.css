@@ -188,12 +188,10 @@ nav li {
 	cursor: pointer;
 }
 
-nav li a {
-	text-decoration: none;
-}
-
+nav li a,
 nav li a:visited {
 	color: black;
+	text-decoration: none;
 }
 
 nav li a:visited:hover {
