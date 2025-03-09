@@ -18,7 +18,7 @@ async function fetchWorks() {
 }
 
 
-fetchWorks();
+
 
 function updateGalleryDisplay(select) {
     const figures = document.querySelectorAll('.gallery figure');
@@ -89,5 +89,10 @@ async function fetchCategories() {
     addFiltres(categoriesApi);
 }
 
+if (document.querySelector('.filtres')) {
+    fetchCategories();
+}
 
-fetchCategories();
+if (document.querySelector('.gallery')) {
+    fetchWorks();
+}
