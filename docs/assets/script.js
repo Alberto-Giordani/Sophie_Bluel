@@ -29,7 +29,7 @@ function updateGalleryDisplay(select) {
     } else {
         // On n'affiche que les travaux dont le categoryId est inclus dans le Set
         figures.forEach(figure => {
-            const figCategoryId = parseInt(figure.getAttribute('data-category-id'));
+            const figCategoryId = Number(figure.getAttribute('data-category-id'));
             figure.style.display = select.has(figCategoryId) ? "" : "none";
         });
     }
