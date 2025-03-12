@@ -94,14 +94,14 @@ fetchCategories();
 fetchWorks();
 
 if (login.innerText === "login") {
-    login.href="./assets/login.html";
+    login.href = "./assets/login.html";
 }
 
 if (sessionStorage.getItem('token')) {
     filtres.classList.add('none');
     edition.classList.remove('none');
     modifier.classList.remove('none');
-    login.innerText="logout";
+    login.innerText = "logout";
     let portfolio = document.querySelector("#portfolio h2");
     portfolio.style.marginBottom = "3em";
 }
@@ -109,7 +109,7 @@ if (sessionStorage.getItem('token')) {
 if (login.innerText === "logout") {
     login.addEventListener('click', () => {
         sessionStorage.clear();
-        login.innerText="login";
-        login.href="./index.html"
+        login.innerText = "login";
+        login.href = "./index.html"
     });
 }
