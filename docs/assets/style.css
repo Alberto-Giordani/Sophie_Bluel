@@ -199,6 +199,11 @@ nav li a:visited:hover {
 	color: #B1663C;
 }
 
+nav li img {
+	height: 22px;
+	width: 22px;
+}
+
 li:hover {
 	color: #B1663C;
 }
@@ -415,4 +420,30 @@ footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
+}
+
+.edition {
+	height: 59px;
+	display: flex;
+	color: white;
+	background-color: black;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	width: 100vw;
+	position: relative;
+	left: 50%;
+	margin-left: -50vw;
+}
+
+.modifier {
+	color: black;
+	font-family: 'Work Sans';
+	font-size: 14px;
+	font-weight: 400;
+	margin-left: 25px;
+}
+
+.none {
+	display: none;
 }

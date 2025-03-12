@@ -1,3 +1,8 @@
+const filtres = document.querySelector('.filtres');
+const edition = document.querySelector('.edition');
+const modifier = document.querySelector('.modifier');
+const login = document.getElementById('login');
+
 function addWorks(works) {
     const gallery = document.querySelector('.gallery');
     gallery.innerHTML = "";
@@ -10,15 +15,11 @@ function addWorks(works) {
     }
 }
 
-
 async function fetchWorks() {
     const responseWorks = await fetch("http://localhost:5678/api/works");
     const worksApi = await responseWorks.json();
     addWorks(worksApi);
 }
-
-
-
 
 function updateGalleryDisplay(select) {
     const figures = document.querySelectorAll('.gallery figure');
@@ -35,7 +36,6 @@ function updateGalleryDisplay(select) {
 }
 
 function addFiltres(categories) {
-    const filtres = document.querySelector('.filtres');
     filtres.innerHTML = "";
 
     const selectedCategories = new Set();
@@ -47,7 +47,7 @@ function addFiltres(categories) {
     filtreTous.addEventListener('click', () => {
         // Toute selection est effacée : le Set est vidé et on ajoute la class "select" au bouton Tous
         selectedCategories.clear();
-        document.querySelectorAll('.filtres__btn').forEach(btn => 
+        document.querySelectorAll('.filtres__btn').forEach(btn =>
             btn.classList.remove('filtres__btn--select')
         );
         filtreTous.classList.add('filtres__btn--select');
@@ -89,10 +89,27 @@ async function fetchCategories() {
     addFiltres(categoriesApi);
 }
 
-if (document.querySelector('.filtres')) {
-    fetchCategories();
+
+fetchCategories();
+fetchWorks();
+
+if (login.innerText === "login") {
+    login.href="./assets/login.html";
 }
 
-if (document.querySelector('.gallery')) {
-    fetchWorks();
+if (sessionStorage.getItem('token')) {
+    filtres.classList.add('none');
+    edition.classList.remove('none');
+    modifier.classList.remove('none');
+    login.innerText="logout";
+    let portfolio = document.querySelector("#portfolio h2");
+    portfolio.style.marginBottom = "3em";
+}
+
+if (login.innerText === "logout") {
+    login.addEventListener('click', () => {
+        sessionStorage.clear();
+        login.innerText="login";
+        login.href="./index.html"
+    });
 }

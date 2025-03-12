@@ -16,15 +16,13 @@ async function validerLogin(email, password) {
         switch (response.status) {
             case 200:
                 const data = await response.json();
-                localStorage.setItem("token", data.token);
+                sessionStorage.setItem('token', data.token);
                 window.location.href = "../index.html";
                 break;
             case 401:
                 throw new Error("Erreur dans le mot de passe");
-                break;
             case 404:
                 throw new Error("Erreur dans l'identifiant");
-                break;
             default:
                 throw new Error("Problème d'authentification");
         }
