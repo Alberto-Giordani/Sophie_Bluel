@@ -104,6 +104,20 @@ if (sessionStorage.getItem('token')) {
     login.innerText = "logout";
     let portfolio = document.querySelector("#portfolio h2");
     portfolio.style.marginBottom = "3em";
+
+    let overlay = document.querySelector('.overlay');
+
+    modifier.addEventListener('click', () => {
+        overlay.style.display= "block";
+    });
+
+   fetchWorksModal();
+
+    let btnClose = document.querySelector('.modal__btn--close');
+
+    btnClose.addEventListener('click', () => {
+        overlay.style.display= "none";
+    });
 }
 
 if (login.innerText === "logout") {
@@ -112,4 +126,24 @@ if (login.innerText === "logout") {
         login.innerText = "login";
         login.href = "./index.html"
     });
+}
+
+function addWorksModal(works) {
+    const galleryModal = document.querySelector('.modal__gallery');
+    galleryModal.innerHTML = "";
+    for (let i = 0; i < works.length; i++) {
+        const figure = document.createElement('figure');
+        figure.innerHTML = `<img src="${works[i].imageUrl}" class="modal__grid--item">`;
+        const iconeTrash = document.createElement('img');
+        iconeTrash.classList.add('modal__grid--icone');
+        iconeTrash.src= './assets/icons/Trash.svg';
+        figure.appendChild(iconeTrash);
+        galleryModal.appendChild(figure);
+    }
+}
+
+async function fetchWorksModal() {
+    const responseWorks = await fetch("http://localhost:5678/api/works");
+    const worksApi = await responseWorks.json();
+    addWorksModal(worksApi);
 }
