@@ -447,3 +447,10 @@ footer nav ul {
 .none {
 	display: none;
 }
+
+header h1 a,
+header h1 a:hover,
+header h1 a:visited {
+	color: inherit;
+	text-decoration: none;
+}
