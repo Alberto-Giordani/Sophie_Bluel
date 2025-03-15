@@ -7,11 +7,12 @@ function addWorks(works) {
     const gallery = document.querySelector('.gallery');
     gallery.innerHTML = "";
     for (let i = 0; i < works.length; i++) {
-        const figure = document.createElement('figure');
-        figure.setAttribute('data-category-id', works[i].categoryId);
-        figure.innerHTML = `<img src="${works[i].imageUrl}" alt="${works[i].title}">
+        const mainFigure = document.createElement('figure');
+        mainFigure.setAttribute('data-category-id', works[i].categoryId);
+        mainFigure.setAttribute('mainFigureId', works[i].id);
+        mainFigure.innerHTML = `<img src="${works[i].imageUrl}" alt="${works[i].title}">
 				<figcaption>${works[i].title}</figcaption>`;
-        gallery.appendChild(figure);
+        gallery.appendChild(mainFigure);
     }
 }
 
@@ -108,15 +109,15 @@ if (sessionStorage.getItem('token')) {
     let overlay = document.querySelector('.overlay');
 
     modifier.addEventListener('click', () => {
-        overlay.style.display= "block";
+        overlay.style.display = "block";
     });
 
-   fetchWorksModal();
+    fetchWorksModal();
 
     let btnClose = document.querySelector('.modal__btn--close');
 
     btnClose.addEventListener('click', () => {
-        overlay.style.display= "none";
+        overlay.style.display = "none";
     });
 }
 
@@ -132,13 +133,23 @@ function addWorksModal(works) {
     const galleryModal = document.querySelector('.modal__gallery');
     galleryModal.innerHTML = "";
     for (let i = 0; i < works.length; i++) {
-        const figure = document.createElement('figure');
-        figure.innerHTML = `<img src="${works[i].imageUrl}" class="modal__grid--item">`;
+        const modalFigure = document.createElement('figure');
+        modalFigure.innerHTML = `<img src="${works[i].imageUrl}" class="modal__grid--item">`;
+        modalFigure.setAttribute('modalFigureId', works[i].id);
         const iconeTrash = document.createElement('img');
         iconeTrash.classList.add('modal__grid--icone');
-        iconeTrash.src= './assets/icons/Trash.svg';
-        figure.appendChild(iconeTrash);
-        galleryModal.appendChild(figure);
+        iconeTrash.src = './assets/icons/Trash.svg';
+        iconeTrash.setAttribute('iconeId', works[i].id);
+
+        iconeTrash.addEventListener('click', () => {
+            const iconeId = iconeTrash.getAttribute('iconeId');
+
+            deleteWorkFromBackEnd(iconeId);
+            removeWorkFromSite(iconeId);
+        })
+
+        modalFigure.appendChild(iconeTrash);
+        galleryModal.appendChild(modalFigure);
     }
 }
 
@@ -146,4 +157,27 @@ async function fetchWorksModal() {
     const responseWorks = await fetch("http://localhost:5678/api/works");
     const worksApi = await responseWorks.json();
     addWorksModal(worksApi);
+}
+
+async function deleteWorkFromBackEnd(workId) {
+    const token = sessionStorage.getItem('token');
+    await fetch(`http://localhost:5678/api/works/${workId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+}
+
+function removeWorkFromSite(workId) {
+    const modalFigure = document.querySelector(`.modal__gallery figure[modalFigureId="${workId}"]`);
+    if (modalFigure) {
+        modalFigure.remove();
+    }
+
+    const mainFigure = document.querySelector(`.gallery figure[mainFigureId="${workId}"]`);
+    if (mainFigure) {
+        mainFigure.remove();
+    }
+
 }

@@ -534,6 +534,7 @@ header h1 a:visited {
 	top: 6px;
 	right: 5.34px;
 	z-index: 11000;
+	cursor: pointer;
 }
 
 .modal input[type="submit"] {
