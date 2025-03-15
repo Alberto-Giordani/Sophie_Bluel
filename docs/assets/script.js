@@ -103,6 +103,8 @@ if (sessionStorage.getItem('token')) {
     edition.classList.remove('none');
     modifier.classList.remove('none');
     login.innerText = "logout";
+
+
     let portfolio = document.querySelector("#portfolio h2");
     portfolio.style.marginBottom = "3em";
 
@@ -113,6 +115,30 @@ if (sessionStorage.getItem('token')) {
     });
 
     fetchWorksModal();
+
+    const titreModal = document.querySelector('.modal h3');
+    const flecheModal = document.querySelector('.modal__fleche');
+    const galleryModal = document.querySelector('.modal__gallery');
+    const ajoutModal = document.querySelector('.modal__ajout');
+    const btnAjout = document.querySelector('.modal__btn--ajout');
+
+    btnAjout.addEventListener('click', () => {
+        titreModal.innerText = "Ajout photo";
+        flecheModal.classList.remove('none');
+        galleryModal.classList.add('none');
+        ajoutModal.classList.remove('none');
+        btnAjout.innerText = "Valider";
+        btnAjout.classList.add('modal__btn--gris');
+    });
+
+    flecheModal.addEventListener('click', () => {
+        titreModal.innerText = "Galerie photo";
+        flecheModal.classList.add('none');
+        ajoutModal.classList.add('none');
+        galleryModal.classList.remove('none');
+        btnAjout.innerText = "Ajouter une photo";
+        btnAjout.classList.remove('modal__btn--gris');
+    });
 
     let btnClose = document.querySelector('.modal__btn--close');
 
