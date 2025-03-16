@@ -1,8 +1,13 @@
-const filtres = document.querySelector('.filtres');
-const edition = document.querySelector('.edition');
-const modifier = document.querySelector('.modifier');
-const login = document.getElementById('login');
+// Sélection des éléments principaux de la page
+const filtres = document.querySelector('.filtres'); // Section des filtres
+const edition = document.querySelector('.edition'); // Mode édition (admin)
+const modifier = document.querySelector('.modifier'); // Bouton pour modifier la galerie
+const login = document.getElementById('login'); // Lien vers la page de connexion
 
+/**
+ * Ajoute dynamiquement les travaux à la galerie principale
+ * @param {Array} works - Liste des travaux récupérés depuis l'API
+ */
 function addWorks(works) {
     const gallery = document.querySelector('.gallery');
     gallery.innerHTML = "";
@@ -16,12 +21,19 @@ function addWorks(works) {
     }
 }
 
+/**
+ * Récupère les travaux depuis l'API et les ajoute à la galerie
+ */
 async function fetchWorks() {
     const responseWorks = await fetch("http://localhost:5678/api/works");
     const worksApi = await responseWorks.json();
     addWorks(worksApi);
 }
 
+/**
+ * Filtre l'affichage des travaux selon les catégories sélectionnées
+ * @param {Set} select - Ensemble des catégories sélectionnées
+ */
 function updateGalleryDisplay(select) {
     const figures = document.querySelectorAll('.gallery figure');
     if (select.size === 0) {
@@ -36,6 +48,10 @@ function updateGalleryDisplay(select) {
     }
 }
 
+/**
+ * Ajoute dynamiquement les boutons de filtres et gère leur interaction
+ * @param {Array} categories - Liste des catégories récupérées depuis l'API
+ */
 function addFiltres(categories) {
     filtres.innerHTML = "";
 
@@ -84,28 +100,38 @@ function addFiltres(categories) {
     }
 }
 
+/**
+ * Récupère les catégories depuis l'API et les ajoute aux filtres
+ */
 async function fetchCategories() {
     const responseCategories = await fetch("http://localhost:5678/api/categories");
     const categoriesApi = await responseCategories.json();
     addFiltres(categoriesApi);
 }
 
-
+// Chargement initial des données
 fetchCategories();
 fetchWorks();
 
+// Gestion de l'état du bouton login/logout
 if (login.innerText === "login") {
     login.href = "./assets/login.html";
+} else if (login.innerText === "logout") {
+    login.addEventListener('click', () => {
+        sessionStorage.clear();
+        login.innerText = "login";
+        login.href = "./index.html"
+    });
 }
 
 if (sessionStorage.getItem('token')) {
-    // Masquer les filtres et afficher le mode édition
+    // Masquer les filtres et afficher le mode édition si l'utilisateur est connecté
     filtres.classList.add('none');
     edition.classList.remove('none');
     modifier.classList.remove('none');
     login.innerText = "logout";
 
-    // Ajuster la marge du titre du portfolio
+    // Ajuster l'espacement du titre du portfolio
     let portfolio = document.querySelector("#portfolio h2");
     portfolio.style.marginBottom = "3em";
 
@@ -125,24 +151,27 @@ if (sessionStorage.getItem('token')) {
     const ajoutModal = document.querySelector('.modal__ajout');
     const btnAjout = document.querySelector('.modal__btn--ajout');
 
-    // Sélectionner les éléments du formulaire d'ajout de photo
+    // Sélectionner les champs du formulaire d'ajout de photo
     const titreInput = document.getElementById('titre');
     const categorieSelect = document.getElementById('categorie');
     const fileInput = document.querySelector('.uploadPreview__input');
     const placeholderImg = document.querySelector('.uploadPreview__placeholder');
 
-    // Gestion de l'aperçu de l'image : attacher l'événement "change" sur l'input une seule fois
+    // Gestion de l'aperçu de l'image sélectionnée pour l'upload
     fileInput.addEventListener('change', () => {
         const file = fileInput.files[0];
         const previewBtn = document.querySelector('.uploadPreview__btn');
         const previewInfo = document.querySelector('.uploadPreview__info');
+        
         if (file) {
             const reader = new FileReader();
             reader.onload = (event) => {
+                // Cacher le bouton et les infos, afficher l'image sélectionnée
                 previewBtn.classList.add('none');
                 previewInfo.classList.add('none');
                 placeholderImg.src = event.target.result;
-                // L'image occupe toute la hauteur du conteneur, et la largeur s'adapte en conservant le ratio
+
+                // Ajuster la taille de l'image pour remplir son conteneur tout en respectant son ratio
                 placeholderImg.style.height = '100%';
                 placeholderImg.style.width = 'auto';
                 placeholderImg.style.objectFit = 'cover';
@@ -151,26 +180,31 @@ if (sessionStorage.getItem('token')) {
         }
     });
 
-    // Fonction de vérification de la validité du formulaire
+    // Vérification de la complétion du formulaire avant validation
     function checkFormValidity() {
         const titreValid = titreInput.value.trim() !== '';
         const categorieValid = categorieSelect.value !== '';
         const fileValid = fileInput.files.length > 0;
+
+        // Activer/désactiver le bouton selon la validité des champs
         if (titreValid && categorieValid && fileValid) {
             btnAjout.classList.remove('modal__btn--gris');
         } else {
             btnAjout.classList.add('modal__btn--gris');
         }
     }
-    // Attacher la vérification sur les événements appropriés
+
+    // Attacher la vérification aux événements des champs du formulaire
     titreInput.addEventListener('input', checkFormValidity);
     categorieSelect.addEventListener('change', checkFormValidity);
     fileInput.addEventListener('change', checkFormValidity);
 
-    // Gestion du clic sur le bouton d'ajout
+    // Gestion du bouton d'ajout d'un projet
     btnAjout.addEventListener('click', async (e) => {
+        
         // État initial : si le bouton affiche "Ajouter une photo"
         if (btnAjout.innerText === "Ajouter une photo") {
+            // Passage à la vue d'ajout de photo
             titreModal.innerText = "Ajout photo";
             flecheModal.classList.remove('none');
             galleryModal.classList.add('none');
@@ -180,7 +214,7 @@ if (sessionStorage.getItem('token')) {
             return; // Arrêter ici pour ne pas lancer la validation immédiatement
         }
 
-        // État "Valider" : si le bouton possède encore la classe grise, le formulaire est incomplet
+        // État "Valider" : si le bouton est toujours grisé, empêcher l'envoi
         if (btnAjout.classList.contains('modal__btn--gris')) {
             e.preventDefault();
             alert("Tous les champs doivent être remplis");
@@ -217,7 +251,7 @@ if (sessionStorage.getItem('token')) {
         }
     });
 
-    // Gestion du clic sur la flèche pour revenir à l'affichage de la galerie
+    // Gestion du retour à la galerie en cliquant sur la flèche
     flecheModal.addEventListener('click', () => {
         titreModal.innerText = "Galerie photo";
         flecheModal.classList.add('none');
@@ -227,23 +261,17 @@ if (sessionStorage.getItem('token')) {
         btnAjout.classList.remove('modal__btn--gris');
     });
 
-    // Fermer la modale en cliquant sur le bouton de fermeture
+    // Fermeture de la modale en cliquant sur la croix
     let btnClose = document.querySelector('.modal__btn--close');
     btnClose.addEventListener('click', () => {
         overlay.style.display = "none";
     });
 }
 
-
-
-if (login.innerText === "logout") {
-    login.addEventListener('click', () => {
-        sessionStorage.clear();
-        login.innerText = "login";
-        login.href = "./index.html"
-    });
-}
-
+/**
+ * Ajoute dynamiquement les projets à la galerie de la modale
+ * @param {Array} works - Liste des travaux récupérés depuis l'API
+ */
 function addWorksModal(works) {
     const galleryModal = document.querySelector('.modal__gallery');
     galleryModal.innerHTML = "";
@@ -256,6 +284,7 @@ function addWorksModal(works) {
         iconeTrash.src = './assets/icons/Trash.svg';
         iconeTrash.setAttribute('iconeId', works[i].id);
 
+        // Gestion de la suppression d'un projet
         iconeTrash.addEventListener('click', () => {
             const iconeId = iconeTrash.getAttribute('iconeId');
 
@@ -268,12 +297,19 @@ function addWorksModal(works) {
     }
 }
 
+/**
+ * Récupère les travaux depuis l'API pour la galerie de la modale
+ */
 async function fetchWorksModal() {
     const responseWorks = await fetch("http://localhost:5678/api/works");
     const worksApi = await responseWorks.json();
     addWorksModal(worksApi);
 }
 
+/**
+ * Supprime un projet de l'API
+ * @param {number} workId - Identifiant du projet à supprimer
+ */
 async function deleteWorkFromBackEnd(workId) {
     const token = sessionStorage.getItem('token');
     await fetch(`http://localhost:5678/api/works/${workId}`, {
@@ -284,6 +320,10 @@ async function deleteWorkFromBackEnd(workId) {
     });
 }
 
+/**
+ * Supprime un projet de la galerie principale et de la modale
+ * @param {number} workId - Identifiant du projet à supprimer
+ */
 function removeWorkFromSite(workId) {
     const modalFigure = document.querySelector(`.modal__gallery figure[modalFigureId="${workId}"]`);
     if (modalFigure) {
