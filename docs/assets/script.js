@@ -113,7 +113,6 @@ if (sessionStorage.getItem('token')) {
     let overlay = document.querySelector('.overlay');
     modifier.addEventListener('click', () => {
         overlay.style.display = "block";
-        document.body.style.overflow = "hidden";
     });
 
     // Mettre à jour la galerie de la modale
@@ -232,7 +231,6 @@ if (sessionStorage.getItem('token')) {
     let btnClose = document.querySelector('.modal__btn--close');
     btnClose.addEventListener('click', () => {
         overlay.style.display = "none";
-        document.body.style.overflow = "auto";
     });
 }
 
