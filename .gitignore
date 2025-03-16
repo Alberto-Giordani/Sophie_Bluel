@@ -1,1 +1,12 @@
-.idea
+# Ignore le dossier node_modules dans docs/assets
+docs/assets/node_modules/
+
+# Ignore le dossier généré par Jekyll (site statique)
+docs/_site/
+
+# Ignore la base de données SQLite (si vous ne souhaitez pas la versionner)
+Backend/database.sqlite
+
+# Ignore les fichiers système et temporaires
+.DS_Store
+Thumbs.db

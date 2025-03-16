@@ -1,0 +1,6 @@
+title: "Projet Sophie Bluel"
+description: "Projet 6 du parcours Intégrateur Web"
+baseurl: "" 
+url: "https://alberto-giordani.github.io/Sophie_Bluel/"
+exclude:
+  - node_modules
