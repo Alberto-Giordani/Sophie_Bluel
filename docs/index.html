@@ -19,7 +19,7 @@
 
 <body>
 	<div class="edition none">
-		<img src="./assets/icons/Vector.svg"></img>
+		<img src="./assets/icons/Vector.svg" alt="edition">
 		<p>Mode édition</p>
 	</div>
 	<header>
@@ -34,7 +34,7 @@
 		</nav>
 	</header>
 	<main>
-		<section id="introduction">
+		<div id="introduction">
 			<figure>
 				<img src="./assets/images/sophie-bluel.png" alt="">
 			</figure>
@@ -48,11 +48,11 @@
 				<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG,
 					décorateur(trice)</p>
 			</article>
-		</section>
+		</div>
 		<section id="portfolio">
 			<h2>Mes Projets
 				<span class="modifier none">
-					<img src="./assets/icons/Group.svg"></img>
+					<img src="./assets/icons/Group.svg" alt="edition">
 					modifier
 				</span>
 			</h2>
@@ -84,6 +84,48 @@
 			</ul>
 		</nav>
 	</footer>
+
+	<section class="overlay">
+		<div class="modal">
+			<img src="./assets/icons/xmark.svg" class="modal__btn--close" alt="fermeture">
+			<img src="./assets/icons/arrow-left.svg" class="modal__fleche none" alt="retour">
+			<h3>Galerie photo</h3>
+			<div class="modal__gallery">
+			</div>
+			<div class="modal__ajout none">
+				<div class="uploadPreview">
+					<img src="./assets/icons/placeholder.svg" alt="Image placeholder"
+						class="uploadPreview__placeholder">
+					<label for="file-upload" class="uploadPreview__btn">
+						+ Ajouter photo
+					</label>
+					<input type="file" id="file-upload" accept=".jpg, .jpeg, .png" class="uploadPreview__input" required>
+					<p class="uploadPreview__info">jpg, png : 4mo max</p>
+				</div>
+
+				<form class="modal__ajout--form">
+					<div class="modal__ajout--form-group">
+						<label for="titre">Titre</label>
+						<input type="text" id="titre" name="titre" required>
+					</div>
+
+					<div class="modal__ajout--form-group">
+						<label for="categorie">Catégorie</label>
+						<select id="categorie" name="categorie" required>
+							<option value="" disabled selected>Choisir une catégorie</option>
+							<option value="1">Objets</option>
+							<option value="2">Appartements</option>
+							<option value="3">Hotels &amp; restaurants</option>
+						</select>
+					</div>
+				</form>
+			</div>
+
+			<button type="button" class="modal__btn--ajout">Ajouter une photo</button>
+
+		</div>
+	</section>
+
 </body>
 
 </html>
