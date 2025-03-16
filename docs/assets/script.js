@@ -230,18 +230,26 @@ if (sessionStorage.getItem('token')) {
                 body: formData
             });
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(errorText);
+            switch (response.status) {
+                case 201: // Post créé
+                    {
+                        alert('Projet ajouté avec succès !');
+                        break;
+                    }
+                default:
+                    {
+                        const errorText = await response.text();
+                        throw new Error(errorText);
+                    }
             }
 
             // Mettre à jour la galerie principale et celle de la modale
             await fetchWorks();
             await fetchWorksModal();
 
-            alert('Projet ajouté avec succès !');
+
         } catch (error) {
-            alert(`Erreur lors de l'envoi des données : ${error.message}`);
+            alert(`Erreur lors de l'envoi des données : ${error.message}`); // Affiche un message d'erreur
         }
     });
 
