@@ -137,7 +137,7 @@ table {
 /** end reset css**/
 body {
 	max-width: 1140px;
-	margin: auto;
+	margin: 0 auto;
 	font-family: 'Work Sans';
 	font-size: 14px;
 }
@@ -348,6 +348,10 @@ li:hover {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
+#login input[type="submit"] {
+	cursor: pointer;
+}
+
 #login label {
 	margin: 2em 0 1em 0;
 }
@@ -459,12 +463,14 @@ header h1 a:visited {
 .overlay {
 	display: none;
 	position: fixed;
+	margin: 0;
+	padding: 0;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
-	height: 100vh;
-	width: 100vw;
+	min-height: 100vh;
+	width: 100%;
 	background-color: rgba(0, 0, 0, 0.3);
 	z-index: 9999;
 }
@@ -559,6 +565,7 @@ header h1 a:visited {
 	border-radius: 60px;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	cursor: pointer;
 }
 
 .modal__btn--ajout:hover {
@@ -578,6 +585,7 @@ header h1 a:visited {
 	border-radius: 60px;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	cursor: default;
 }
 
 .modal__btn--gris:hover {
@@ -597,7 +605,7 @@ header h1 a:visited {
 
 .uploadPreview {
 	width: 100%;
-	min-height: 169px;
+	height: 169px;
 	background-color: #e8F1F6;
 	margin-bottom: 30px;
 	display: flex;
