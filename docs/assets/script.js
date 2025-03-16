@@ -113,15 +113,9 @@ async function fetchCategories() {
 fetchCategories();
 fetchWorks();
 
-// Gestion de l'état du bouton login/logout
+// Gestion du bouton login
 if (login.innerText === "login") {
     login.href = "./assets/login.html";
-} else if (login.innerText === "logout") {
-    login.addEventListener('click', () => {
-        sessionStorage.clear();
-        login.innerText = "login";
-        login.href = "./index.html"
-    });
 }
 
 if (sessionStorage.getItem('token')) {
@@ -162,7 +156,7 @@ if (sessionStorage.getItem('token')) {
         const file = fileInput.files[0];
         const previewBtn = document.querySelector('.uploadPreview__btn');
         const previewInfo = document.querySelector('.uploadPreview__info');
-        
+
         if (file) {
             const reader = new FileReader();
             reader.onload = (event) => {
@@ -201,7 +195,7 @@ if (sessionStorage.getItem('token')) {
 
     // Gestion du bouton d'ajout d'un projet
     btnAjout.addEventListener('click', async (e) => {
-        
+
         // État initial : si le bouton affiche "Ajouter une photo"
         if (btnAjout.innerText === "Ajouter une photo") {
             // Passage à la vue d'ajout de photo
@@ -265,6 +259,15 @@ if (sessionStorage.getItem('token')) {
     let btnClose = document.querySelector('.modal__btn--close');
     btnClose.addEventListener('click', () => {
         overlay.style.display = "none";
+    });
+}
+
+// Gestion du bouton logout
+if (login.innerText === "logout") {
+    login.addEventListener('click', () => {
+        sessionStorage.clear();
+        login.innerText = "login";
+        login.href = "./index.html"
     });
 }
 
