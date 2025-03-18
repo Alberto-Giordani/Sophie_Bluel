@@ -176,7 +176,7 @@ if (sessionStorage.getItem('token')) {
     });
 
     // Vérification de la complétion du formulaire avant validation
-    var checkFormValidity = function () {
+    let checkFormValidity = function () {
         const titreValid = titreInput.value.trim() !== '';
         const categorieValid = categorieSelect.value !== '';
         const fileValid = fileInput.files.length > 0;
