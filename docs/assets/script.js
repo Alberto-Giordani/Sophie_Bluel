@@ -55,6 +55,7 @@ function updateGalleryDisplay(select) {
 function addFiltres(categories) {
     filtres.innerHTML = "";
 
+    /*global Set*/
     const selectedCategories = new Set();
 
     // Bouton "Tous"
@@ -175,7 +176,7 @@ if (sessionStorage.getItem('token')) {
     });
 
     // Vérification de la complétion du formulaire avant validation
-    function checkFormValidity() {
+    var checkFormValidity = function () {
         const titreValid = titreInput.value.trim() !== '';
         const categorieValid = categorieSelect.value !== '';
         const fileValid = fileInput.files.length > 0;
