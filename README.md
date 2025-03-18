@@ -42,7 +42,7 @@ Le projet est également hébergé sur **GitHub Pages** à l'adresse suivante : 
 
 ## Validation du code
 
-L'intégralité du projet a été validée avec ESLint afin de garantir la qualité et la cohérence du code JavaScript. Toutes les erreurs et avertissements ont été corrigés pour assurer un respect des bonnes pratiques de développement.
+L'intégralité du code JavaScript a été validée avec ESLint afin de garantir la qualité et la cohérence du code. Le code HTML et CSS de ce projet a été validé par le [W3C Validator](https://validator.w3.org/). Toutes les erreurs et avertissements ont été corrigés pour assurer un respect des bonnes pratiques de développement.
 
 ## Fonctionnalités implémentées
 
