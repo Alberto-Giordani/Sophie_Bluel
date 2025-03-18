@@ -275,7 +275,7 @@ if (login.innerText === "logout") {
     login.addEventListener('click', () => {
         sessionStorage.clear();
         login.innerText = "login";
-        login.href = "./index.html"
+        login.href = "./index.html";
     });
 }
 
@@ -301,7 +301,7 @@ function addWorksModal(works) {
 
             deleteWorkFromBackEnd(iconeId);
             removeWorkFromSite(iconeId);
-        })
+        });
 
         modalFigure.appendChild(iconeTrash);
         galleryModal.appendChild(modalFigure);

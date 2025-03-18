@@ -83,5 +83,5 @@ function showErrorPopup(error) {
         if (event.target === popupBackground) {
             cacherPopup();
         }
-    })
+    });
 }
