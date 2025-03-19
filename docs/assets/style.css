@@ -656,33 +656,33 @@ header h1 a:visited {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-  }
-  
-  .modal__ajout--form-group {
-	width: 100%; 
+}
+
+.modal__ajout--form-group {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
-  }
-  
-  .modal__ajout--form-group label {
+}
+
+.modal__ajout--form-group label {
 	margin-bottom: 10px;
 	font-family: 'Work Sans';
 	font-size: 14px;
 	font-weight: 500;
 	color: #3d3d3d;
 	align-self: flex-start;
-  }
-  
-  .modal__ajout--form-group select {
+}
+
+.modal__ajout--form-group select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 	background: url('./icons/arrow-grey.svg') no-repeat;
 	background-position: right 20px center;
-  }
+}
 
-  .modal__ajout--form-group input,
-  .modal__ajout--form-group select {
+.modal__ajout--form-group input,
+.modal__ajout--form-group select {
 	height: 51px;
 	margin-bottom: 21px;
 	display: flex;
@@ -696,9 +696,9 @@ header h1 a:visited {
 	text-align: left;
 	outline: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-  }
-  
-  .modal__ajout--form-group input:focus,
-  .modal__ajout--form-group select:focus {
+}
+
+.modal__ajout--form-group input:focus,
+.modal__ajout--form-group select:focus {
 	border-color: #1D6154;
-  }
+}
