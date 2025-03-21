@@ -151,12 +151,13 @@ if (sessionStorage.getItem('token')) {
     const categorieSelect = document.getElementById('categorie');
     const fileInput = document.querySelector('.uploadPreview__input');
     const placeholderImg = document.querySelector('.uploadPreview__placeholder');
+    const defaultPlaceholderSrc = placeholderImg.src;
+    const previewBtn = document.querySelector('.uploadPreview__btn');
+    const previewInfo = document.querySelector('.uploadPreview__info');
 
     // Gestion de l'aperçu de l'image sélectionnée pour l'upload
     fileInput.addEventListener('change', () => {
         const file = fileInput.files[0];
-        const previewBtn = document.querySelector('.uploadPreview__btn');
-        const previewInfo = document.querySelector('.uploadPreview__info');
 
         if (file) {
             const reader = new FileReader();
@@ -247,6 +248,22 @@ if (sessionStorage.getItem('token')) {
             // Mettre à jour la galerie principale et celle de la modale
             await fetchWorks();
             await fetchWorksModal();
+
+            titreInput.value = "";
+            categorieSelect.value = "";
+            fileInput.value = "";
+            fileInput.files = null;
+
+            // Réinitialiser l'aperçu de l'image
+            previewBtn.classList.remove('none');
+            previewInfo.classList.remove('none');
+            placeholderImg.src = defaultPlaceholderSrc; // Remettre l'image par défaut
+            placeholderImg.style.height = '';
+            placeholderImg.style.width = '';
+            placeholderImg.style.objectFit = '';
+
+            // Deshabiliter le bouton de validation pour éviter des envois accidentels
+            btnAjout.classList.add('modal__btn--gris');
 
 
         } catch (error) {
